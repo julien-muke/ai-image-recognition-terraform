@@ -4,7 +4,7 @@
 
   <br />
     <a href="https://youtu.be/63McfqGULvA?si=A7jpVj9SZ1Ad9b9D" target="_blank">
-      <img src="https://github.com/user-attachments/assets/cb49ad40-aad7-4901-8fc1-4ae8beae4642" alt="Project Banner">
+      <img src="https://github.com/user-attachments/assets/fc2fca1b-f0d0-41e6-81c0-67e75942385d" alt="Project Banner">
     </a>
   <br />
 
@@ -32,7 +32,7 @@ Welcome to this exciting hands-on project where we build a complete AI image ana
 
 ## <a name="steps">🔎 Overview </a>
  
-In this project, we’ll use Amazon Rekognition to detect objects, scenes, and concepts in an image, then pass those results to Amazon Bedrock (Titan model) to generate a human-readable summary. The frontend allows users to upload images and get insightful, AI-generated descriptions — all with zero servers to manage!
+In this project, we’ll use Amazon Rekognition to detect objects, scenes, and concepts in an image, then pass those results to Amazon Bedrock (Titan model) to generate a human-readable summary. The frontend allows users to upload images and get insightful, AI-generated descriptions, all with zero servers to manage!
 
 ## <a name="steps">🛠 Tech Stack: </a>
 
