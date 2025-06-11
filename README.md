@@ -50,7 +50,7 @@ Before you begin, ensure you have the following set up:
 • **AWS Account**: An active AWS account with administrative privileges to create the necessary resources.<br>
 • **AWS CLI**: The AWS Command Line Interface installed and configured with your credentials.<br>
 • **Terraform**: Terraform installed on your local machine. You can verify the installation by running `terraform --version`<br>
-• **Node.js and npm (optional)**: Required for managing frontend dependencies if you choose to expand the project.<br>
+• **Node.js, npm and Python**: Required for managing frontend dependencies if you choose to expand the project.<br>
 • **Model Access in Amazon Bedrock**: You must enable access to the foundation models you intend to use. For this project, navigate to the Amazon Bedrock console, go to Model access, and request access to Titan Image Generator G1.<br>
 
 ## ➡️ Step 1 - Project Structure
@@ -69,106 +69,111 @@ First, let's organize our project files. Create a main directory for your projec
         ├── style.css
         └── script.js
 
-1. Go to the AWS Console → Amazon Bedrock
-2. Request access to `amazon.titan-text-express-v1` you can also choose any models you want to use based on your needs.
+## ➡️ Step 2 - Backend Development with Python and Lambda
 
-![Image](https://github.com/user-attachments/assets/d86d2963-1c01-4fe6-a215-12817e17f1e3)
+We'll start by writing the Python code for our Lambda function. This function will be the brains of our operation.
 
-3. Once approved, you're ready to build
-
-![Image](https://github.com/user-attachments/assets/802d52f4-a6c7-4a5b-8003-ede95ed778a4)
-
-## ➡️ Step 2 - Create an IAM Role for Lambda
-To create an IAM role with the console:
-
-1. In the navigation pane search for IAM, choose Roles, and then choose Create role.
-2. For Trusted entity type, choose AWS service
-3. For Service or use case, choose a service `Lambda` then Choose Next.
-4. For Permissions policies, the options depend on the use case that you selected, for this demo select these permissions:<br>
-• `AmazonBedrockFullAccess`<br>
-• `CloudWatchLogsFullAccess`<br>
-5. For Role name, enter `chatBotLambdaRole`
-6. Review the role, and then choose Create role.
-
-
-## ➡️ Step 3 - Create the Lambda Function
-To create a Lambda function with the console:
-
-1. In the navigation pane search for Lambda function
-2. Choose Create function.
-3. Select Author from scratch.
-4. In the Basic information pane, for Function name, enter `chatbotlambda`
-5. For Runtime, choose Python 3.12 (easiest for Bedrock SDK usage).
-6. Leave architecture set to x86_64, and then choose Create function.
-7. For the Lambda function code, copy and paste the code below into your Lambda code editor:
+This script uses the `boto3` AWS SDK for Python. It will perform the following actions:
+1. Receive a base64-encoded image from the API Gateway.
+2. Decode the image.
+3. Send the image to Amazon Rekognition to detect labels.
+4. Create a prompt with these labels and send it to Amazon Bedrock.
+5. Return the labels and the AI-generated description.
 
 <details>
-<summary><code>lambda_function.py</code></summary>
+<summary><code>lambda/image_analyzer.py</code></summary>
 
 ```py
-import boto3
 import json
+import boto3
+import base64
 
-bedrock = boto3.client('bedrock-runtime', region_name='us-east-1')
+# Initialize AWS clients
+rekognition = boto3.client('rekognition')
+bedrock_runtime = boto3.client('bedrock-runtime')
 
 def lambda_handler(event, context):
-    # Handle preflight (OPTIONS) request for CORS
-    if event['httpMethod'] == 'OPTIONS':
+    """
+    This Lambda function analyzes an image provided as a base64 encoded string.
+    It uses Rekognition to detect labels and Bedrock (Titan) to generate a
+    human-readable description.
+    """
+    try:
+        # Get the base64 encoded image from the request body
+        body = json.loads(event.get('body', '{}'))
+        image_base64 = body.get('image')
+
+        if not image_base64:
+            return {
+                'statusCode': 400,
+                'body': json.dumps({'error': 'No image provided in the request body.'})
+            }
+
+        # Decode the base64 string
+        image_bytes = base64.b64decode(image_base64)
+
+        # 1. Analyze image with AWS Rekognition
+        rekognition_response = rekognition.detect_labels(
+            Image={'Bytes': image_bytes},
+            MaxLabels=10,
+            MinConfidence=80
+        )
+        labels = [label['Name'] for label in rekognition_response['Labels']]
+
+        if not labels:
+             return {
+                'statusCode': 200,
+                'body': json.dumps({
+                    'labels': [],
+                    'description': "Could not detect any labels with high confidence. Please try another image."
+                })
+            }
+
+        # 2. Enhance results with Amazon Bedrock
+        # Create a prompt for the Titan model
+        prompt = f"Based on the following labels detected in an image: {', '.join(labels)}. Please generate a single, descriptive sentence about the image."
+
+        # Configure the payload for the Bedrock model
+        bedrock_payload = {
+            "inputText": prompt,
+            "textGenerationConfig": {
+                "maxTokenCount": 100,
+                "stopSequences": [],
+                "temperature": 0.7,
+                "topP": 0.9
+            }
+        }
+
+        # Invoke the Bedrock model
+        bedrock_response = bedrock_runtime.invoke_model(
+            body=json.dumps(bedrock_payload),
+            modelId='amazon.titan-text-express-v1',
+            contentType='application/json',
+            accept='application/json'
+        )
+
+        response_body = json.loads(bedrock_response['body'].read())
+        description = response_body['results'][0]['outputText'].strip()
+
+        # 3. Return the results
         return {
             'statusCode': 200,
             'headers': {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': '*',
-                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+                'Access-Control-Allow-Origin': '*', # Enable CORS
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST'
             },
-            'body': json.dumps('Preflight OK')
+            'body': json.dumps({
+                'labels': labels,
+                'description': description
+            })
         }
 
-    # Parse incoming JSON
-    body = json.loads(event['body'])
-    user_message = body.get('message', '')
-    history = body.get('history', [])
-
-    # Optional: construct prompt with history
-    conversation = ""
-    for turn in history:
-        conversation += f"User: {turn['user']}\nAssistant: {turn['assistant']}\n"
-    conversation += f"User: {user_message}\nAssistant:"
-
-    # Create payload for Titan
-    request_body = {
-        "inputText": conversation,
-        "textGenerationConfig": {
-            "maxTokenCount": 300,
-            "temperature": 0.7,
-            "topP": 0.9,
-            "stopSequences": []
+    except Exception as e:
+        return {
+            'statusCode': 500,
+            'body': json.dumps({'error': str(e)})
         }
-    }
-
-    # Call Titan model
-    response = bedrock.invoke_model(
-        modelId='amazon.titan-text-express-v1',
-        body=json.dumps(request_body),
-        contentType='application/json',
-        accept='application/json'
-    )
-
-    # Extract model output
-    result = json.loads(response['body'].read())
-    reply = result.get('results', [{}])[0].get('outputText', '')
-
-    # Return response with CORS headers
-    return {
-        'statusCode': 200,
-        'headers': {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers': '*',
-            'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
-        },
-        'body': json.dumps({'response': reply})
-    }
 ```
 </details>
 
