@@ -516,161 +516,330 @@ output "frontend_website_endpoint" {
 
 ## ➡️ Step 4 - Frontend Development
 
-Build a stylish chat interface using pure HTML + CSS + JavaScript — no frameworks, easy to deploy via S3 or Amplify.
-I have a sample that we'll use for this tutorial, feel free to copy and use it for this demo.
+Now we'll create the user interface that interacts with our backend.
 
-1. Open your code editor (VS Code)
-2. Create an `index.html` file 
-3. Copy and paste the code below
+This is the main HTML file for our application.
 
 <details>
-<summary><code>index.html</code></summary>
+<summary><code>frontend/index.html</code></summary>
 
 ```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AI Chatbot using Amazon Bedrock</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f5f8fa;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-    }
-
-    header {
-      background-color: #232f3e;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
-
-    #chatBox {
-      flex: 1;
-      padding: 1rem;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .message {
-      max-width: 80%;
-      padding: 0.75rem 1rem;
-      border-radius: 12px;
-      font-size: 1rem;
-      line-height: 1.4;
-    }
-
-    .user {
-      align-self: flex-end;
-      background-color: #0073bb;
-      color: white;
-    }
-
-    .bot {
-      align-self: flex-start;
-      background-color: #e1ecf4;
-      color: #333;
-    }
-
-    footer {
-      padding: 1rem;
-      display: flex;
-      gap: 0.5rem;
-      background-color: white;
-      border-top: 1px solid #ddd;
-    }
-
-    input[type="text"] {
-      flex: 1;
-      padding: 0.75rem;
-      font-size: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      outline: none;
-    }
-
-    button {
-      padding: 0.75rem 1rem;
-      background-color: #ff9900;
-      border: none;
-      border-radius: 8px;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #e48c00;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Image Analyzer</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="container">
+        <header>
+            <h1>AI-Powered Image Analyzer</h1>
+            <p>Upload an image to detect labels with AWS Rekognition and get a description from Amazon Bedrock.</p>
+        </header>
 
-  <header>🤖 AI Chatbot — Powered by Amazon Bedrock</header>
+        <main>
+            <div class="upload-area">
+                <input type="file" id="imageUpload" accept="image/png, image/jpeg">
+                <label for="imageUpload" id="uploadLabel">
+                    <span>Click to select an image</span>
+                </label>
+                <button id="analyzeBtn" disabled>Analyze Image</button>
+            </div>
 
-  <div id="chatBox"></div>
+            <div id="preview">
+                <img id="imagePreview" src="#" alt="Image Preview">
+            </div>
 
-  <footer>
-    <input type="text" id="userInput" placeholder="Type your message..." />
-    <button onclick="sendMessage()">Send</button>
-  </footer>
+            <div id="results" class="hidden">
+                <h2>Analysis Results</h2>
+                <div id="loader" class="loader"></div>
+                <div id="resultContent">
+                     <h3>AI Generated Description:</h3>
+                     <p id="description"></p>
+                     <h3>Detected Labels:</h3>
+                     <div id="labels"></div>
+                </div>
+            </div>
+        </main>
 
-  <script>
-    let history = [];
-
-    async function sendMessage() {
-      const userInput = document.getElementById('userInput');
-      const message = userInput.value.trim();
-      if (!message) return;
-
-      // Show user message
-      addMessage(message, 'user');
-
-      // Call backend
-      const response = await fetch('https://your-api-id.execute-api.us-east-1.amazonaws.com/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message, history })
-      });
-
-      const data = await response.json();
-      const botReply = data.response;
-
-      // Show bot message
-      addMessage(botReply, 'bot');
-
-      // Update history
-      history.push({ user: message, assistant: botReply });
-
-      // Reset input
-      userInput.value = '';
-    }
-
-    function addMessage(text, sender) {
-      const msg = document.createElement('div');
-      msg.classList.add('message', sender);
-      msg.textContent = text;
-      document.getElementById('chatBox').appendChild(msg);
-      msg.scrollIntoView({ behavior: 'smooth' });
-    }
-  </script>
-
+        <footer>
+            <p>Built with AWS Rekognition, Bedrock & Terraform</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
 ```
 </details>
 
-⚠️Note: Replace `https://your-api-id.execute-api.us-east-1.amazonaws.com/chat` with your real API Gateway endpoint.
+Here is some CSS to make the interface look professional and modern.
+
+<details>
+<summary><code>frontend/style.css</code></summary>
+
+```css
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+header {
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    color: #1a73e8;
+    margin: 0;
+}
+
+.upload-area {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+#imageUpload {
+    display: none;
+}
+
+#uploadLabel {
+    display: block;
+    padding: 30px;
+    border: 2px dashed #1a73e8;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #f8f9fa;
+    margin-bottom: 20px;
+    transition: background-color 0.3s;
+}
+
+#uploadLabel:hover {
+    background-color: #e8f0fe;
+}
+
+#uploadLabel span {
+    font-size: 1.2em;
+    font-weight: 500;
+}
+
+#analyzeBtn {
+    background-color: #1a73e8;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+#analyzeBtn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+#analyzeBtn:not(:disabled):hover {
+    background-color: #155ab6;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+#preview {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+#imagePreview {
+    max-width: 100%;
+    max-height: 400px;
+    border-radius: 8px;
+    display: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+#results {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+#results.hidden {
+    display: none;
+}
+
+#resultContent {
+    display: none;
+}
+
+#description {
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-style: italic;
+    color: #555;
+}
+
+#labels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.label-tag {
+    background-color: #e8f0fe;
+    color: #1a73e8;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+.loader {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #1a73e8;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+footer {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+    font-size: 0.9em;
+    color: #888;
+}
+```
+</details>
+
+This JavaScript file handles the logic for image preview, converting the image to base64, calling the API, and displaying the results.
+
+<details>
+<summary><code>frontend/script.js</code></summary>
+
+```js
+document.addEventListener('DOMContentLoaded', () => {
+    const imageUpload = document.getElementById('imageUpload');
+    const uploadLabel = document.getElementById('uploadLabel');
+    const analyzeBtn = document.getElementById('analyzeBtn');
+    const imagePreview = document.getElementById('imagePreview');
+    const previewContainer = document.getElementById('preview');
+    const resultsContainer = document.getElementById('results');
+    const loader = document.getElementById('loader');
+    const resultContent = document.getElementById('resultContent');
+    const descriptionEl = document.getElementById('description');
+    const labelsEl = document.getElementById('labels');
+
+    const API_ENDPOINT = 'YOUR_API_GATEWAY_INVOKE_URL'; // <-- IMPORTANT: REPLACE THIS
+
+    let base64Image = null;
+
+    imageUpload.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            // Display image preview
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block';
+                uploadLabel.querySelector('span').textContent = file.name;
+                analyzeBtn.disabled = false;
+            };
+            reader.readAsDataURL(file);
+
+            // Convert image to base64 for sending to API
+            const readerForBase64 = new FileReader();
+            readerForBase64.onload = (e) => {
+                // Remove the data URL prefix (e.g., "data:image/jpeg;base64,")
+                base64Image = e.target.result.split(',')[1];
+            };
+            readerForBase64.readAsDataURL(file);
+        }
+    });
+
+    analyzeBtn.addEventListener('click', async () => {
+        if (!base64Image || API_ENDPOINT === 'YOUR_API_GATEWAY_INVOKE_URL') {
+            alert('Please select an image first or configure the API endpoint in script.js.');
+            return;
+        }
+
+        // Show loader and results section
+        resultsContainer.classList.remove('hidden');
+        loader.style.display = 'block';
+        resultContent.style.display = 'none';
+        descriptionEl.textContent = '';
+        labelsEl.innerHTML = '';
+
+        try {
+            const response = await fetch(API_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ image: base64Image }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            // Display results
+            descriptionEl.textContent = data.description;
+            data.labels.forEach(label => {
+                const labelTag = document.createElement('div');
+                labelTag.className = 'label-tag';
+                labelTag.textContent = label;
+                labelsEl.appendChild(labelTag);
+            });
+
+        } catch (error) {
+            console.error('Error:', error);
+            descriptionEl.textContent = `An error occurred: ${error.message}`;
+        } finally {
+            // Hide loader and show content
+            loader.style.display = 'none';
+            resultContent.style.display = 'block';
+        }
+    });
+});
+```
+</details>
+
+⚠️Important: You will need to replace `YOUR_API_GATEWAY_INVOKE_URL` with the actual URL you get from the Terraform output.
 
 
 ## ➡️ Step 6 - Deploy Frontend Chat UI to an S3 Static Website
