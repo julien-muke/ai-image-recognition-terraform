@@ -53,9 +53,21 @@ Before you begin, ensure you have the following set up:
 • **Node.js and npm (optional)**: Required for managing frontend dependencies if you choose to expand the project.<br>
 • **Model Access in Amazon Bedrock**: You must enable access to the foundation models you intend to use. For this project, navigate to the Amazon Bedrock console, go to Model access, and request access to Titan Image Generator G1.<br>
 
-## ➡️ Step 1 - Set Up Amazon Bedrock Access
+## ➡️ Step 1 - Project Structure
 
-Make sure your AWS account has Bedrock access (Bedrock is GA now but some regions might differ — N. Virginia us-east-1 is safest).
+First, let's organize our project files. Create a main directory for your project, and inside it, create the following structure:
+
+image-analysis-app/
+├── terraform/
+│   ├── main.tf
+│   ├── variables.tf
+│   └── outputs.tf
+├── lambda/
+│   └── image_analyzer.py
+└── frontend/
+    ├── index.html
+    ├── style.css
+    └── script.js
 
 1. Go to the AWS Console → Amazon Bedrock
 2. Request access to `amazon.titan-text-express-v1` you can also choose any models you want to use based on your needs.
