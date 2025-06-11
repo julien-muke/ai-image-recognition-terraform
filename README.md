@@ -846,7 +846,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 Now it's time to bring everything online.
 
-1. Deploy the Backend with Terraform
+## 1. Deploy the Backend with Terraform
 
 • Navigate to the `terraform` directory in your terminal:
 
@@ -874,7 +874,7 @@ terraform apply
 
 • After the deployment is complete, Terraform will display the outputs. Copy the ``api_gateway_invoke_url`
 
-2. Configure and Deploy the Frontend
+## 2. Configure and Deploy the Frontend
 
 • Open `frontend/script.js` in your text editor.
 • Replace the placeholder `YOUR_API_GATEWAY_INVOKE_URL` with the URL you copied from the Terraform output.
@@ -883,37 +883,14 @@ terraform apply
 - Upload the three files from your `frontend` directory into the bucket.
 - Ensure the files have public read access. Terraform attempts to set this, but you may need to confirm.
 
-1. In the AWS Management Console, navigate to Amazon S3, click on "Create Bucket"
-2. For General configuration, choose choose General purpose buckets.
-3. Enter a unique bucket name, i'll name `myaichatbotdemo`
-4. Make sure you disable "Block all public access" to have public access.
-5. Keep everything else as default and click "Create bucket"
-6. Upload the `index.html` file that you created in step 5
-7. Go to "Properties" and scroll down to "Static Website Hosting" and click on "Edit"
-8. Under "Static Website Hosting", choose "Enable"
-9. Specify index.html as the index document, then click "Save"
-10. Go to "Permissions" under Bucket Policy click "Edit"
-11. Paste the Bucket Policy below, that grants read-only access to all objects (s3:GetObject) inside a specific S3 bucket.
+## 3. Test the Application
 
-```json
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "PublicReadGetObject",
-      "Effect": "Allow",
-      "Principal": "*",
-      "Action": "s3:GetObject",
-      "Resource": "arn:aws:s3:::your-bucket-name/*"
-    }
-  ]
-}
-```
-⚠️Note: Replace `your-bucket-name` with your actual bucket name, then click "Save"
-
-12. Go back to the S3 Bucket console, choose Objects, then click on `index.html`
-13. To visit your fully serverless AI chatbot Live, click on the Object URL.
-14. You should see your AI Chatbot with a stylish chat interface running on Amazon S3.
+1. Open the frontend_website_endpoint URL from the Terraform output in your web browser.
+2. You should see the "AI Image Analyzer" interface.
+3. Click the upload area, select a JPG or PNG image from your computer.
+4. The image preview will appear, and the "Analyze Image" button will be enabled.
+5. Click the button. The loader will appear while the backend processes the image.
+6. After a few moments, the AI-generated description and the list of detected labels will be displayed.
 
 🏆 Now you can ask the AI Chatbot anything and you will have a real-time AI responses.
 
