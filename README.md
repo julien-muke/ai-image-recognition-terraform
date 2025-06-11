@@ -205,7 +205,7 @@ variable "project_name" {
 This is the main configuration file where we define all our resources.
 
 <details>
-<summary><code>terraform/variables.tf</code></summary>
+<summary><code>terraform/main.tf</code></summary>
 
 ```tf
 # ==============================================================================
@@ -476,38 +476,45 @@ resource "aws_s3_bucket_policy" "frontend_policy" {
   depends_on = [aws_s3_bucket_public_access_block.frontend_public_access]
 }
 
-
 # ==============================================================================
 # Optional Output
 # ==============================================================================
 output "frontend_website_url" {
   value = aws_s3_bucket_website_configuration.frontend_website.website_endpoint
 }
-
 ```
 </details>
 
-1. In the navigation pane search for API Gateway, choose REST API, click "Build"
-2. Choose Create API, enter a name `chatbot-api` click "Create API".
-3. Once the REST API is created, click on "Create Resource" 
-4. Enter a resource, i'll enter `chat`
-5. Make sure you Enable `CORS` (Cross Origin Resource Sharing), which will create an OPTIONS method that allows all origins, all methods, and several common headers.
-6. Once the resource is created, click on "Create method"
-7. For the method type, choose `POST` 
-8. For the integration type choose "Lambda function"
-9. Make sure you Enable Lambda proxy integration to send the request to your Lambda function as a structured event.
-10. Choose the your regoin `us-east-1` then choose your existing Lambda function that you created earlier.
-11. Keep everything as default then click "Create method"
-12. Back resources, click on "Deploy API"
-13. For the deploy stage, create a new stage, i'll name it `dev` then click on "Deploy"
+This file will output the API Gateway URL and the S3 website endpoint after Terraform has finished deploying the resources.
 
-## Test API Gateway
+<details>
+<summary><code>terraform/outputs.tf</code></summary>
 
-Deploy your API and test using Postman or curl<br>
+```tf
+output "api_gateway_url" {
+  description = "The invoke URL of the deployed API"
+  value       = aws_api_gateway_stage.stage.invoke_url
+}
 
-⚠️Note: Once it's deployed successfully, we'll have an invoke URL that will be our API endpoint, we're going to call it and then it's going to call the Lambda function to generate the response to us so.
+output "lambda_function_name" {
+  description = "The name of the Lambda function"
+  value       = aws_lambda_function.image_analyzer_lambda.function_name
+}
 
-## ➡️ Step 5 - Build the Frontend Chat UI
+output "frontend_bucket_name" {
+  description = "The name of the S3 bucket hosting the frontend"
+  value       = aws_s3_bucket.frontend_bucket.bucket
+}
+
+output "frontend_website_endpoint" {
+  description = "The website endpoint of the frontend S3 bucket"
+  value       = aws_s3_bucket_website_configuration.frontend_website.website_endpoint
+}
+```
+</details>
+
+
+## ➡️ Step 4 - Frontend Development
 
 Build a stylish chat interface using pure HTML + CSS + JavaScript — no frameworks, easy to deploy via S3 or Amplify.
 I have a sample that we'll use for this tutorial, feel free to copy and use it for this demo.
