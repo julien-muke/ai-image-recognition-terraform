@@ -892,8 +892,13 @@ terraform apply
 5. Click the button. The loader will appear while the backend processes the image.
 6. After a few moments, the AI-generated description and the list of detected labels will be displayed.
 
-🏆 Now you can ask the AI Chatbot anything and you will have a real-time AI responses.
+## 🗑️ Cleaning Up
 
-## 🗑️ Clean Up Resources
+When you are finished with the project, you can destroy all the created AWS resources to avoid incurring further costs.
 
-When you’re done, clean up your AWS resources to avoid charges.
+1. Navigate back to the terraform directory.
+2. Run the destroy command:
+
+```bash
+terraform destroy
+```
