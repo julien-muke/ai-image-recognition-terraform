@@ -49,6 +49,9 @@ Before you begin, ensure you have the following set up:
  
 • **AWS Account**: An active AWS account with administrative privileges to create the necessary resources.<br>
 • **AWS CLI**: The AWS Command Line Interface installed and configured with your credentials.<br>
+• **Terraform**: Terraform installed on your local machine. You can verify the installation by running `terraform --version`<br>
+• **Node.js and npm (optional)**: Required for managing frontend dependencies if you choose to expand the project.<br>
+• **Model Access in Amazon Bedrock**: You must enable access to the foundation models you intend to use. For this project, navigate to the Amazon Bedrock console, go to Model access, and request access to Titan Image Generator G1.<br>
 
 ## ➡️ Step 1 - Set Up Amazon Bedrock Access
 
