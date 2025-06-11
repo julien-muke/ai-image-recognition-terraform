@@ -183,7 +183,7 @@ def lambda_handler(event, context):
 Now, let's define all the AWS resources needed for our backend using Terraform.
 
 <details>
-<summary><code>lambda/image_analyzer.py</code></summary>
+<summary><code>terraform/variables.tf</code></summary>
 
 ```tf
     variable "aws_region" {
