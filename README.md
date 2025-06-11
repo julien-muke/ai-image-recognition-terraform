@@ -854,6 +854,34 @@ Now it's time to bring everything online.
 cd ai-image-recognition-terraform/terraform
 ```
 
+• Initialize Terraform. This will download the necessary provider plugins.
+
+```bash
+terraform init
+```
+
+• (Optional) Plan the deployment. This shows you what resources Terraform will create.
+
+```bash
+terraform plan
+```
+
+• Apply the configuration to create the AWS resources. Type `yes` when prompted.
+
+```bash
+terraform apply
+```
+
+• After the deployment is complete, Terraform will display the outputs. Copy the ``api_gateway_invoke_url`
+
+2. Configure and Deploy the Frontend
+
+• Open `frontend/script.js` in your text editor.
+• Replace the placeholder `YOUR_API_GATEWAY_INVOKE_URL` with the URL you copied from the Terraform output.
+• Now, upload the frontend files (`index.html`, `style.css`, and the updated `script.js`) to the S3 bucket created by Terraform. You can do this via the AWS Management Console or using the AWS CLI.
+- Find your bucket name in the S3 console (it will be prefixed with `ai-image-analyzer-frontend-hosting-`).
+- Upload the three files from your `frontend` directory into the bucket.
+- Ensure the files have public read access. Terraform attempts to set this, but you may need to confirm.
 
 1. In the AWS Management Console, navigate to Amazon S3, click on "Create Bucket"
 2. For General configuration, choose choose General purpose buckets.
