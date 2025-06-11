@@ -43,6 +43,13 @@ In this project, we’ll use Amazon Rekognition to detect objects, scenes, and c
 • Amazon S3 – Hosts a static frontend (HTML/CSS/JS)<br>
 • Terraform – Provisions the full infrastructure as code (IaC)<br>
 
+## <a name="pre">📋 Prerequisites </a>
+
+Before you begin, ensure you have the following set up:
+ 
+• **AWS Account**: An active AWS account with administrative privileges to create the necessary resources.<br>
+• **AWS CLI**: The AWS Command Line Interface installed and configured with your credentials.<br>
+
 ## ➡️ Step 1 - Set Up Amazon Bedrock Access
 
 Make sure your AWS account has Bedrock access (Bedrock is GA now but some regions might differ — N. Virginia us-east-1 is safest).
