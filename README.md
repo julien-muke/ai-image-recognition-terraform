@@ -57,17 +57,17 @@ Before you begin, ensure you have the following set up:
 
 First, let's organize our project files. Create a main directory for your project, and inside it, create the following structure:
 
-    image-analysis-app/<br>
-    ├── terraform/<br>
-    │   ├── main.tf<br>
-    │   ├── variables.tf<br>
-    │   └── outputs.tf<br>
-    ├── lambda/<br>
-    │   └── image_analyzer.py<br>
-    └── frontend/<br>
-        ├── index.html<br>
-        ├── style.css<br>
-        └── script.js<br>
+    image-analysis-app/
+    ├── terraform/
+    │   ├── main.tf
+    │   ├── variables.tf
+    │   └── outputs.tf
+    ├── lambda/
+    │   └── image_analyzer.py
+    └── frontend/
+        ├── index.html
+        ├── style.css
+        └── script.js
 
 1. Go to the AWS Console → Amazon Bedrock
 2. Request access to `amazon.titan-text-express-v1` you can also choose any models you want to use based on your needs.
