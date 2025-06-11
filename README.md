@@ -178,9 +178,29 @@ def lambda_handler(event, context):
 5. Return the labels and the AI-generated description.
 
 
-## ➡️ Step 4 - Set Up API Gateway
+## ➡️ Step 3 - Infrastructure as Code with Terraform
 
-We're will create a REST API, the REST API provides an HTTP endpoint for your Lambda function. API Gateway routes requests to your Lambda function, and then returns the function's response to clients.
+Now, let's define all the AWS resources needed for our backend using Terraform.
+
+<details>
+<summary><code>lambda/image_analyzer.py</code></summary>
+
+```tf
+    variable "aws_region" {
+  description = "The AWS region to deploy resources in."
+  type        = string
+  default     = "us-east-1"
+}
+
+variable "project_name" {
+  description = "A unique name for the project to prefix resources."
+  type        = string
+  default     = "ai-image-analyzer"
+}
+```
+</details>
+
+
 
 1. In the navigation pane search for API Gateway, choose REST API, click "Build"
 2. Choose Create API, enter a name `chatbot-api` click "Create API".
