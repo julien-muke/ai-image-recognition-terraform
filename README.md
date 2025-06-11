@@ -57,7 +57,7 @@ Before you begin, ensure you have the following set up:
 
 First, let's organize our project files. Create a main directory for your project, and inside it, create the following structure:
 
-    image-analysis-app/
+    ai-image-recognition-terraform/
     ├── terraform/
     │   ├── main.tf
     │   ├── variables.tf
@@ -842,9 +842,18 @@ document.addEventListener('DOMContentLoaded', () => {
 ⚠️Important: You will need to replace `YOUR_API_GATEWAY_INVOKE_URL` with the actual URL you get from the Terraform output.
 
 
-## ➡️ Step 6 - Deploy Frontend Chat UI to an S3 Static Website
+## ➡️ Step 5 - Deployment and Testing
 
-We'll deploy our fully serverless AI chatbot to S3 for static website hosting.
+Now it's time to bring everything online.
+
+1. Deploy the Backend with Terraform
+
+• Navigate to the `terraform` directory in your terminal:
+
+```bash
+cd ai-image-recognition-terraform/terraform
+```
+
 
 1. In the AWS Management Console, navigate to Amazon S3, click on "Create Bucket"
 2. For General configuration, choose choose General purpose buckets.
