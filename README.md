@@ -846,7 +846,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 Now it's time to bring everything online.
 
-# 1. Deploy the Backend with Terraform
+### 1. Deploy the Backend with Terraform
 
 • Navigate to the `terraform` directory in your terminal:
 
@@ -874,17 +874,17 @@ terraform apply
 
 • After the deployment is complete, Terraform will display the outputs. Copy the ``api_gateway_invoke_url`
 
-# 2. Configure and Deploy the Frontend
+### 2. Configure and Deploy the Frontend
 
 • Open `frontend/script.js` in your text editor.<br>
 • Replace the placeholder `YOUR_API_GATEWAY_INVOKE_URL` with the URL you copied from the Terraform output.<br>
 • Now, upload the frontend files (`index.html`, `style.css`, and the updated `script.js`) to the S3 bucket created by Terraform. You can do this via the AWS Management Console or using the AWS CLI.<br>
 
-➖ Find your bucket name in the S3 console (it will be prefixed with `ai-image-analyzer-frontend-hosting-`).
-➖ Upload the three files from your `frontend` directory into the bucket.
-➖ Ensure the files have public read access. Terraform attempts to set this, but you may need to confirm.
+➖ Find your bucket name in the S3 console (it will be prefixed with `ai-image-analyzer-frontend-hosting-`).<br>
+➖ Upload the three files from your `frontend` directory into the bucket.<br>
+➖ Ensure the files have public read access. Terraform attempts to set this, but you may need to confirm.<br>
 
-# 3. Test the Application
+### 3. Test the Application
 
 1. Open the frontend_website_endpoint URL from the Terraform output in your web browser.
 2. You should see the "AI Image Analyzer" interface.
