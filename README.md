@@ -73,13 +73,6 @@ First, let's organize our project files. Create a main directory for your projec
 
 We'll start by writing the Python code for our Lambda function. This function will be the brains of our operation.
 
-This script uses the `boto3` AWS SDK for Python. It will perform the following actions:
-1. Receive a base64-encoded image from the API Gateway.
-2. Decode the image.
-3. Send the image to Amazon Rekognition to detect labels.
-4. Create a prompt with these labels and send it to Amazon Bedrock.
-5. Return the labels and the AI-generated description.
-
 <details>
 <summary><code>lambda/image_analyzer.py</code></summary>
 
@@ -177,10 +170,12 @@ def lambda_handler(event, context):
 ```
 </details>
 
-⚠️Note: This function will;<br>
-✅ Accepts a message from the user<br>
-✅ Sends it to a Bedrock LLM<br>
-✅ Returns the model's response<br>
+⚠️Note: This script uses the `boto3` AWS SDK for Python. It will perform the following actions:
+1. Receive a base64-encoded image from the API Gateway.
+2. Decode the image.
+3. Send the image to Amazon Rekognition to detect labels.
+4. Create a prompt with these labels and send it to Amazon Bedrock.
+5. Return the labels and the AI-generated description.
 
 
 ## ➡️ Step 4 - Set Up API Gateway
