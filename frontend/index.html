@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Image Analyzer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI-Powered Image Analyzer</h1>
+            <p>Upload an image to detect labels with AWS Rekognition and get a description from Amazon Bedrock.</p>
+        </header>
+
+        <main>
+            <div class="upload-area">
+                <input type="file" id="imageUpload" accept="image/png, image/jpeg">
+                <label for="imageUpload" id="uploadLabel">
+                    <span>Click to select an image</span>
+                </label>
+                <button id="analyzeBtn" disabled>Analyze Image</button>
+            </div>
+
+            <div id="preview">
+                <img id="imagePreview" src="#" alt="Image Preview">
+            </div>
+
+            <div id="results" class="hidden">
+                <h2>Analysis Results</h2>
+                <div id="loader" class="loader"></div>
+                <div id="resultContent">
+                     <h3>AI Generated Description:</h3>
+                     <p id="description"></p>
+                     <h3>Detected Labels:</h3>
+                     <div id="labels"></div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Built with AWS Rekognition, Bedrock & Terraform</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
