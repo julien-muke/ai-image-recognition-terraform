@@ -51,7 +51,7 @@ Before you begin, ensure you have the following set up:
 • **[AWS CLI](https://docs.aws.amazon.com/streams/latest/dev/setup-awscli.html)**: The AWS Command Line Interface installed and configured with your credentials.<br>
 • **[Terraform](https://developer.hashicorp.com/terraform/install)**: Terraform installed on your local machine. You can verify the installation by running `terraform --version`<br>
 • **[Node.js, npm](https://nodejs.org/en/download) and [Python](https://www.python.org/downloads/)**: Required for managing frontend dependencies if you choose to expand the project.<br>
-• **Model Access in Amazon Bedrock**: You must enable access to the foundation models you intend to use. For this project, navigate to the Amazon Bedrock console, go to Model access, and request access to Titan Image Generator G1.<br>
+• **Model Access in [Amazon Bedrock](https://aws.amazon.com/bedrock/)**: You must enable access to the foundation models you intend to use. For this project, navigate to the Amazon Bedrock console, go to Model access, and request access to Titan Image Generator G1.<br>
 
 ## ➡️ Step 1 - Project Structure
 
