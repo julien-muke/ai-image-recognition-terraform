@@ -47,7 +47,7 @@ In this project, we’ll use Amazon Rekognition to detect objects, scenes, and c
 
 Before you begin, ensure you have the following set up:
  
-• **(AWS Account)[https://aws.amazon.com/resources/create-account/]**: An active AWS account with administrative privileges to create the necessary resources.<br>
+• **[AWS Account](https://aws.amazon.com/resources/create-account/)**: An active AWS account with administrative privileges to create the necessary resources.<br>
 • **AWS CLI**: The AWS Command Line Interface installed and configured with your credentials.<br>
 • **Terraform**: Terraform installed on your local machine. You can verify the installation by running `terraform --version`<br>
 • **Node.js, npm and Python**: Required for managing frontend dependencies if you choose to expand the project.<br>
