@@ -886,7 +886,7 @@ terraform apply
 
 ### 3. Test the Application
 
-1. Open the frontend_website_endpoint URL from the Terraform output in your web browser.
+1. Go to your S3 bucket, choose on index.html then open Object URL in your web browser.
 2. You should see the "AI Image Analyzer" interface.
 3. Click the upload area, select a JPG or PNG image from your computer.
 4. The image preview will appear, and the "Analyze Image" button will be enabled.
