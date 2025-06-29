@@ -199,6 +199,12 @@ variable "project_name" {
   type        = string
   default     = "ai-image-analyzer"
 }
+
+variable "environment" {
+  description = "Deployment environment (e.g., dev, staging, prod)."
+  type        = string
+  default     = "dev"
+}
 ```
 </details>
 
@@ -401,10 +407,13 @@ resource "aws_api_gateway_deployment" "deployment" {
   rest_api_id = aws_api_gateway_rest_api.api.id
 
   # This ensures a new deployment happens when any part of the API changes.
-  triggers = {
-    redeployment = sha1(jsonencode(aws_api_gateway_rest_api.api.body))
+   triggers = {
+    redeployment = sha1(jsonencode([
+      aws_api_gateway_resource.resource.id,
+      aws_api_gateway_method.method.id,
+      aws_api_gateway_integration.integration.id,
+    ]))
   }
-
   lifecycle {
     create_before_destroy = true
   }
