@@ -3,7 +3,7 @@
 <div align="center">
 
   <br />
-    <a href="https://youtu.be/63McfqGULvA?si=A7jpVj9SZ1Ad9b9D" target="_blank">
+    <a href="https://youtu.be/o4fNDCAqyzM" target="_blank">
       <img src="https://github.com/user-attachments/assets/9692b53b-d569-4f6b-a959-39a4dac923a0" alt="Project Banner">
     </a>
   <br />
@@ -23,7 +23,7 @@ channel, <a href="http://www.youtube.com/@julienmuke/videos" target="_blank"><b>
 If you prefer visual learning, this is the perfect resource for you. Follow my tutorial to learn how to build projects
 like these step-by-step in a beginner-friendly manner!
 
-<a href="https://youtu.be/63McfqGULvA?si=A7jpVj9SZ1Ad9b9D" target="_blank"><img src="https://github.com/sujatagunale/EasyRead/assets/151519281/1736fca5-a031-4854-8c09-bc110e3bc16d" /></a>
+<a href="https://youtu.be/o4fNDCAqyzM" target="_blank"><img src="https://github.com/sujatagunale/EasyRead/assets/151519281/1736fca5-a031-4854-8c09-bc110e3bc16d" /></a>
 
 ## <a name="introduction">🤖 Introduction</a>
 
