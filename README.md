@@ -867,7 +867,7 @@ cd ai-image-recognition-terraform/terraform
 terraform init
 ```
 
-• (Optional) Plan the deployment. This shows you what resources Terraform will create.
+• Plan the deployment. This shows you what resources Terraform will create.
 
 ```bash
 terraform plan
