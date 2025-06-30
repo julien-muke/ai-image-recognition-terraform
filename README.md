@@ -848,7 +848,7 @@ document.addEventListener('DOMContentLoaded', () => {
 ```
 </details>
 
-⚠️Important: You will need to replace `YOUR_API_GATEWAY_INVOKE_URL` with the actual URL you get from the Terraform output.Make sure to add `/analyze` to the end of the URL you copied.
+⚠️Important: You will need to replace `YOUR_API_GATEWAY_INVOKE_URL` with the actual URL you get from the Terraform output. Make sure to add `/analyze` to the end of the URL you copied.
 
 
 ## ➡️ Step 5 - Deployment and Testing
