@@ -848,8 +848,6 @@ document.addEventListener('DOMContentLoaded', () => {
 ```
 </details>
 
-⚠️Important: You will need to replace `YOUR_API_GATEWAY_INVOKE_URL` with the actual URL you get from the Terraform output. Make sure to add `/analyze` to the end of the URL you copied.
-
 
 ## ➡️ Step 5 - Deployment and Testing
 
@@ -881,15 +879,15 @@ terraform plan
 terraform apply
 ```
 
-• After the deployment is complete, Terraform will display the outputs. Copy the ``api_gateway_invoke_url`
+• After the deployment is complete, Terraform will display the outputs. Copy the `api_gateway_invoke_url`
 
 ### 2. Configure and Deploy the Frontend
 
 • Open `frontend/script.js` in your text editor.<br>
-• Replace the placeholder `YOUR_API_GATEWAY_INVOKE_URL` with the URL you copied from the Terraform output.<br>
+⚠️Important: You will need to replace `YOUR_API_GATEWAY_INVOKE_URL` with the actual URL you get from the Terraform output. Make sure to add `/analyze` to the end of the URL you copied.<br>
 • Now, upload the frontend files (`index.html`, `style.css`, and the updated `script.js`) to the S3 bucket created by Terraform. You can do this via the AWS Management Console or using the AWS CLI.<br>
 
-➖ Find your bucket name in the S3 console (it will be prefixed with `ai-image-analyzer-frontend-hosting-`).<br>
+➖ Find your bucket name in the S3 console (it will be prefixed with `ai-image-analyzer-frontend-hosting`).<br>
 ➖ Upload the three files from your `frontend` directory into the bucket.<br>
 ➖ Ensure the files have public read access. Terraform attempts to set this, but you may need to confirm.<br>
 
