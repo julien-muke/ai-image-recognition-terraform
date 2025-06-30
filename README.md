@@ -902,7 +902,7 @@ terraform apply
 5. Click the button. The loader will appear while the backend processes the image.
 6. After a few moments, the AI-generated description and the list of detected labels will be displayed.
 
-![Image](https://github.com/user-attachments/assets/4f60d036-d67c-47fd-a7d1-224b54931273)
+![Image](https://github.com/user-attachments/assets/f5130fef-d343-40a7-998b-bc065078eb2c)
 
 ## 🗑️ Cleaning Up
 
