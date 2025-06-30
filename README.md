@@ -36,12 +36,12 @@ In this project, we’ll use Amazon Rekognition to detect objects, scenes, and c
 
 ## <a name="steps">🛠 Tech Stack: </a>
 
-• Amazon Rekognition – Detects objects, scenes, and labels in images<br>
-• Amazon Bedrock (Titan) – Converts labels into descriptive text using generative AI<br>
-• AWS Lambda (Python) – Processes requests and orchestrates AI services<br>
-• Amazon API Gateway – Exposes our backend via a RESTful API<br>
-• Amazon S3 – Hosts a static frontend (HTML/CSS/JS)<br>
-• Terraform – Provisions the full infrastructure as code (IaC)<br>
+• Amazon Rekognition: Detects objects, scenes, and labels in images<br>
+• Amazon Bedrock (Titan): Converts labels into descriptive text using generative AI<br>
+• AWS Lambda (Python): Processes requests and orchestrates AI services<br>
+• Amazon API Gateway: Exposes our backend via a RESTful API<br>
+• Amazon S3: Hosts a static frontend (HTML/CSS/JS)<br>
+• Terraform: Provisions the full infrastructure as code (IaC)<br>
 
 ## <a name="pre">📋 Prerequisites </a>
 
